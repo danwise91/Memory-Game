@@ -3,6 +3,7 @@
  */
 let card_names = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-anchor", "fa fa-leaf", "fa fa-bicycle", "fa fa-diamond", "fa fa-bomb", "fa fa-leaf", "fa fa-bomb", "fa fa-bolt", "fa fa-bicycle", "fa fa-paper-plane-o", "fa fa-cube"],
     open_cards = [],
+    shown_cards = [],
     move_count = 0,
     matched_pairs = 0,
     game_started = false;
@@ -67,10 +68,6 @@ function flipOver() {
   event.target.classList.add('show');
 }
 
-// function addToOpenArray() {
-//   open_cards.push(event.target);
-// }
-
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
@@ -83,7 +80,13 @@ deck.addEventListener('click', function(event) {
     // if (event.target.classList.contains('open')) { 
     //     return; 
     // }
-  
+  if (open_cards.length != 2 && event.target.className === "card open show" && 
+        shown_cards.length != 2){
+        open_cards.push(event.target.childNodes[0].className);
+        shown_cards.push(event.target);
+        console.log(open_cards);
+        console.log(shown_cards);
+    }
 
  // *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
     // addToOpenArray();
@@ -91,26 +94,29 @@ deck.addEventListener('click', function(event) {
   // *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
     if (open_cards.length > 1) {
         if(open_cards[0] === open_cards[1] ) {
-            open_cards[0].classList.add('match');
-            open_cards[1].classList.add('match');
-            matched_pairs += 1;
-            open_cards = [];
+                setTimeout(function(){
+                shown_cards[0].classList.add('match');
+                shown_cards[1].classList.add('match');
+                matched_pairs += 1;
+                open_cards = [];
+                shown_cards = [];
+            }, 110);
 // *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
-        } else {
-            event.target.classList.remove('open');
-            event.target.classList.remove('show');
+        } else if (open_cards[0] != open_cards[1]) {
+            setTimeout(function(){
+            shown_cards[0].classList.remove('open');
+            shown_cards[0].classList.remove('show');
+            shown_cards[1].classList.remove('open');
+            shown_cards[1].classList.remove('show');
             open_cards = [];
+            shown_cards = [];
+            }, 500);
         }
     }
  // *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
     if(matched_pairs === 8) {
         showModal();
       }
-
-    if (open_cards.length != 2 && event.target.className === "card open show"){
-        open_cards.push(event.target.childNodes[0].className);
-        console.log(open_cards);
-    }
  });
 
 // increases move count: 2 clicks === 1 move
