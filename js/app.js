@@ -22,6 +22,8 @@ reset_button.addEventListener('click', playGame);
 // play_again.addEventListener('click', playGame);
 
 playGame();
+
+//display score
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -71,7 +73,6 @@ function flipOver() {
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
-
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
     flipOver();
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
@@ -142,6 +143,8 @@ function showModal() {
 
 
 function playGame() {
+    //matched pairs doesnt update as the score
+    document.getElementById("show-score").innerHTML = "Score: " + matched_pairs;
     //set the timer
     var minutes = 60 * 1,
     display = document.getElementById('timer');
@@ -176,6 +179,8 @@ function startTimer(duration, display) {
         }
     }, 1000);
 }
+
+
 
 // clock logic 
 // function startGameClock() {
