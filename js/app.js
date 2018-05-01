@@ -16,7 +16,8 @@ num_stars = 3;
 const deck = document.getElementById('mainDeck');
 const reset_button = document.querySelector('.restart');
 const play_again = document.querySelector('.play-again');
-const moves = document.getElementById('moves');
+const moves = document.querySelector('.moves');
+const endMoves = document.getElementById('finalMoves');
 const starOne = document.getElementById('star-one');
 const starTwo = document.getElementById('star-two');
 const starThree = document.getElementById('star-three');
@@ -171,7 +172,7 @@ function increaseScore(){
 function showModal() {
     modal.style.display = "block";
     starNums.innerHTML = num_stars;
-    moves.innerHTML = move_count;
+    endMoves.innerHTML = move_count;
     endTime.innerHTML = timer;
 };
 
@@ -181,6 +182,7 @@ function playGame() {
     shuffle(card_names);
     createDeck();
     num_stars = 3;
+    moves.innerHTML = move_count;
     modal.style.display = "none";
 }
 
