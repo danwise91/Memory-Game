@@ -22,7 +22,7 @@ const scoreDisplay = document.getElementById("show-score");
 reset_button.addEventListener('click', playGame);
 
 // play_again.addEventListener('click', playGame);
-
+scoreDisplay.innerHTML = matched_pairs;
 playGame();
 
 //display score
@@ -75,14 +75,15 @@ function flipOver() {
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
-  if (event.target.className === "card"){
-        totalClicks += 1;   
-    }
+  
   if (totalClicks <= 2){
+    if (event.target.className === "card"){
+        totalClicks += 1;
+        increaseMoveCount();
+        flipOver();
+    }
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
-    flipOver();
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
-    increaseMoveCount();
     // stops user from just clicking on 1 card twice to "match" it.
     // if (event.target.classList.contains('open')) { 
     //     return; 
@@ -133,11 +134,11 @@ function increaseMoveCount() {
     moves.innerHTML = move_count;
 
     if (move_count === 6) {
-          starOne.remove();
+          starOne.style.display = "none";
     } else if (move_count === 12) {
-          starTwo.remove();
+          starTwo.style.display = "none";
     } else if (move_count === 15) {
-          starThree.remove(); 
+          starThree.style.display = "none";
     }
 }
 
@@ -155,20 +156,28 @@ function showModal() {
 
 
 function playGame() {
-    matched_pairs = 0;
     //matched pairs doesnt update as the score
-    //set the timer
-    var minutes = 60 * 0,
-    display = document.getElementById('timer');
-    startTimer(minutes, display);
+    resetGame();
     // startGameClock();
     createDeck();
     // shuffles the order of the cards to begin.
     shuffle(card_names);
     //Resets the move counter and displayed number of moves.
+    //**needs to reset stars and time**
+}
+
+function resetGame(){
     move_count = 0;
     moves.innerHTML = 0;
-    //**needs to reset stars and time**
+    matched_pairs = 0;
+    scoreDisplay.innerHTML = 0;
+    starOne.style.display = "inital";
+    starTwo.style.display = "inital";
+    starThree.style.display = "inital";
+    //set the timer
+    var minutes = 60 * 0,
+    display = document.getElementById('timer');
+    startTimer(minutes, display);     
 }
 
 //timer code
