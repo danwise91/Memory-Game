@@ -85,6 +85,12 @@ deck.addEventListener('click', function(event) {
         totalClicks += 1;
         increaseMoveCount();
     }
+
+    // stops user from just clicking on 1 card twice to "match" it.
+    if (event.target.classList.contains('open')) { 
+        return; 
+    }
+
   if (totalClicks <= 2){
         flipOver();
         
