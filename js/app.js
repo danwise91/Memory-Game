@@ -149,13 +149,13 @@ function increaseMoveCount() {
     move_count += 1;
     moves.innerHTML = move_count;
 
-    if (move_count === 100) {
+    if (move_count === 15) {
           starOne.style.display = "none";
           num_stars -= 1;
-    } else if (move_count === 200) {
+    } else if (move_count === 30) {
           starTwo.style.display = "none";
           num_stars -= 1;
-    } else if (move_count === 500) {
+    } else if (move_count === 40) {
           starThree.style.display = "none";
           num_stars -= 1;
     }
