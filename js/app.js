@@ -75,13 +75,12 @@ function flipOver() {
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
-  
-  if (totalClicks <= 2){
-    if (event.target.className === "card"){
+  if (event.target.className === "card"){
         totalClicks += 1;
         increaseMoveCount();
-        flipOver();
     }
+  if (totalClicks <= 2){
+    flipOver();
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
     // stops user from just clicking on 1 card twice to "match" it.
@@ -171,7 +170,7 @@ function resetGame(){
     moves.innerHTML = 0;
     matched_pairs = 0;
     scoreDisplay.innerHTML = 0;
-    starOne.style.display = "inital";
+    starOne.style.display = "block";
     starTwo.style.display = "inital";
     starThree.style.display = "inital";
     //set the timer
