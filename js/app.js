@@ -9,6 +9,9 @@ let card_names = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa
     totalClicks = 0,
     game_started = false;
 
+var myVar; 
+
+
 const deck = document.getElementById('mainDeck');
 const reset_button = document.querySelector('.restart');
 const play_again = document.querySelector('.play-again');
@@ -19,7 +22,7 @@ const starThree = document.getElementById('star-three');
 const starLine = document.getElementById('stars');
 const scoreDisplay = document.getElementById("show-score");
 
-reset_button.addEventListener('click', playGame);
+reset_button.addEventListener('click', resetGame);
 
 // play_again.addEventListener('click', playGame);
 scoreDisplay.innerHTML = matched_pairs;
@@ -80,7 +83,8 @@ deck.addEventListener('click', function(event) {
         increaseMoveCount();
     }
   if (totalClicks <= 2){
-    flipOver();
+        flipOver();
+        
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
     // stops user from just clicking on 1 card twice to "match" it.
@@ -122,6 +126,7 @@ deck.addEventListener('click', function(event) {
     }
  // *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
     if(matched_pairs === 8) {
+        clearInterval(myVar);
         showModal();
       }
     }
@@ -156,34 +161,41 @@ function showModal() {
 
 function playGame() {
     //matched pairs doesnt update as the score
-    resetGame();
     // startGameClock();
     createDeck();
     // shuffles the order of the cards to begin.
     shuffle(card_names);
     //Resets the move counter and displayed number of moves.
     //**needs to reset stars and time**
+    //set the timer
+    var minutes = 60 * 0,
+    display = document.getElementById('timer');
+    startTimer(minutes, display);
 }
 
 function resetGame(){
+    createDeck();
+    shuffle(card_names);
+
     move_count = 0;
     moves.innerHTML = 0;
     matched_pairs = 0;
     scoreDisplay.innerHTML = 0;
     starOne.style.display = "block";
-    starTwo.style.display = "inital";
-    starThree.style.display = "inital";
-    //set the timer
-    var minutes = 60 * 0,
-    display = document.getElementById('timer');
-    startTimer(minutes, display);     
+    starTwo.style.display = "block";
+    starThree.style.display = "block";
+
+    //*********************************************//
+         
 }
+
+//*********************************************//
 
 //timer code
 function startTimer(duration, display) {
     //set the duration, minutes, and seconds
         var timer = duration, minutes, seconds;
-        setInterval(function () {
+        myVar = setInterval(function () {
         //convert minutes and seconds and give about .10 decimal places 
         minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
