@@ -6,6 +6,7 @@ let card_names = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa
     shown_cards = [],
     move_count = 0,
     matched_pairs = 0,
+    totalClicks = 0,
     game_started = false;
 
 const deck = document.getElementById('mainDeck');
@@ -16,6 +17,7 @@ const starOne = document.getElementById('star-one');
 const starTwo = document.getElementById('star-two');
 const starThree = document.getElementById('star-three');
 const starLine = document.getElementById('stars');
+const scoreDisplay = document.getElementById("show-score");
 
 reset_button.addEventListener('click', playGame);
 
@@ -73,6 +75,10 @@ function flipOver() {
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
+  if (event.target.className === "card"){
+        totalClicks += 1;   
+    }
+  if (totalClicks <= 2){
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
     flipOver();
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
@@ -85,8 +91,6 @@ deck.addEventListener('click', function(event) {
         shown_cards.length != 2){
         open_cards.push(event.target.childNodes[0].className);
         shown_cards.push(event.target);
-        console.log(open_cards);
-        console.log(shown_cards);
     }
 
  // *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
@@ -95,12 +99,13 @@ deck.addEventListener('click', function(event) {
   // *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
     if (open_cards.length > 1) {
         if(open_cards[0] === open_cards[1] ) {
+                increaseScore();
                 setTimeout(function(){
                 shown_cards[0].classList.add('match');
                 shown_cards[1].classList.add('match');
-                matched_pairs += 1;
                 open_cards = [];
                 shown_cards = [];
+                totalClicks = 0;
             }, 110);
 // *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
         } else if (open_cards[0] != open_cards[1]) {
@@ -111,13 +116,15 @@ deck.addEventListener('click', function(event) {
             shown_cards[1].classList.remove('show');
             open_cards = [];
             shown_cards = [];
-            }, 500);
+            totalClicks = 0;
+            }, 600);
         }
     }
  // *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
     if(matched_pairs === 8) {
         showModal();
       }
+    }
  });
 
 // increases move count: 2 clicks === 1 move
@@ -134,6 +141,11 @@ function increaseMoveCount() {
     }
 }
 
+function increaseScore(){
+    matched_pairs += 1;
+    scoreDisplay.innerHTML = matched_pairs;
+}
+
  
 // Winning Modal
 function showModal() {
@@ -143,10 +155,10 @@ function showModal() {
 
 
 function playGame() {
+    matched_pairs = 0;
     //matched pairs doesnt update as the score
-    document.getElementById("show-score").innerHTML = "Score: " + matched_pairs;
     //set the timer
-    var minutes = 60 * 1,
+    var minutes = 60 * 0,
     display = document.getElementById('timer');
     startTimer(minutes, display);
     // startGameClock();
@@ -162,8 +174,8 @@ function playGame() {
 //timer code
 function startTimer(duration, display) {
     //set the duration, minutes, and seconds
-    var timer = duration, minutes, seconds;
-    setInterval(function () {
+        var timer = duration, minutes, seconds;
+        setInterval(function () {
         //convert minutes and seconds and give about .10 decimal places 
         minutes = parseInt(timer / 60, 10)
         seconds = parseInt(timer % 60, 10);
@@ -174,44 +186,10 @@ function startTimer(duration, display) {
 
         display.textContent = minutes + ":" + seconds;
 
-        if (--timer <= 0) {
+        if (++timer <= 0) {
             timer = 0;
         }
     }, 1000);
 }
-
-
-
-// clock logic 
-// function startGameClock() {
-//     var min = 0;
-//     var sec = 0;
-//     var hours = 0;
-//     var letsStop = 0;
-//     let timerBlock = document.querySelector('.timer');
-
-//     setInterval(function() {
-//         if (letsStop !== 1) {
-//             sec++;
-//             if (sec === 60) {
-//                 min++;
-//                 sec = 0;
-//             }
-//             if (min === 60) {
-//                 hours++;
-//                 min = 0;
-//                 sec = 0;
-//             }
-//             timerBlock.innerHTML = (hours + ':' + min + ':' + sec);
-//             // if(letsStop === 1)
-//             // {
-//             //     break;
-//             // } 
-//             console.log(min);
-//             console.log(sec);
-//         }
-
-//     }, 1000);
-// }
 
 
