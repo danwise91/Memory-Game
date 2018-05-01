@@ -9,33 +9,30 @@ let card_names = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa
     totalClicks = 0,
     game_started = false;
 
-// var myVar; 
-var display;
-let model;
 let timer = 0;
 let timePTR;
-// num_stars = 3;
-
-;
-
+num_stars = 3;
 
 const deck = document.getElementById('mainDeck');
 const reset_button = document.querySelector('.restart');
 const play_again = document.querySelector('.play-again');
-const moves = document.querySelector('.moves');
+const moves = document.getElementById('moves');
 const starOne = document.getElementById('star-one');
 const starTwo = document.getElementById('star-two');
 const starThree = document.getElementById('star-three');
 const starLine = document.getElementById('stars');
 const scoreDisplay = document.getElementById("show-score");
-
+const modal = document.getElementById('win-modal');
+const starNums = document.getElementById('num-stars');
+const endTime = document.getElementById('endTime');
 reset_button.addEventListener('click', resetGame);
 play_again.addEventListener('click', playAgain);
-// play_again.addEventListener('click', playGame);
+
+//display the matched pairs from the start
 scoreDisplay.innerHTML = matched_pairs;
+
 playGame();
 
-//display score
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -82,11 +79,6 @@ function flipOver() {
   event.target.classList.add('show');
 }
 
-function showModal() {
-    let timer = document.getElementsByClassName('endTime').innerHTML
-    let modal = document.getElementById('win-modal');
-    modal.style.display = "block";
-}
 
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
@@ -157,36 +149,39 @@ function increaseMoveCount() {
     move_count += 1;
     moves.innerHTML = move_count;
 
-    if (move_count === 6) {
+    if (move_count === 100) {
           starOne.style.display = "none";
           num_stars -= 1;
-    } else if (move_count === 12) {
+    } else if (move_count === 200) {
           starTwo.style.display = "none";
           num_stars -= 1;
-    } else if (move_count === 15) {
+    } else if (move_count === 500) {
           starThree.style.display = "none";
           num_stars -= 1;
     }
 }
 
+//function to increase score
 function increaseScore(){
     matched_pairs += 1;
-    scoreDisplay.innerHTML = matched_pairs;
 }
 
  
 // Winning Modal
-// function showModal() {
-//     modal = document.getElementById('win-modal');
-//     modal.style.display = "block";
-// };
+function showModal() {
+    modal.style.display = "block";
+    starNums.innerHTML = num_stars;
+    moves.innerHTML = move_count;
+    endTime.innerHTML = timer;
+};
 
 
 function playGame() {
     startTimer();
-    createDeck();
     shuffle(card_names);
+    createDeck();
     num_stars = 3;
+    modal.style.display = "none";
 }
 
 function resetGame(){
@@ -204,19 +199,14 @@ function resetGame(){
     starOne.style.display = "block";
     starTwo.style.display = "block";
     starThree.style.display = "block";
-
-  
-    //*********************************************//
          
 }
 
 function playAgain(){
     resetGame();
-    modal = document.getElementById('win-modal');
     modal.style.display = "none";
 }
 
-//*********************************************//
 function startTimer(){
     timer += 1;
     document.getElementById("timer").innerHTML = timer;
