@@ -14,6 +14,7 @@ var display;
 let model;
 let timer = 0;
 let timePTR;
+// num_stars = 3;
 
 const deck = document.getElementById('mainDeck');
 const reset_button = document.querySelector('.restart');
@@ -85,15 +86,16 @@ deck.addEventListener('click', function(event) {
         totalClicks += 1;
         increaseMoveCount();
     }
+    if (event.target.classList.contains('open')) { 
+        return; 
+    }
   if (totalClicks <= 2){
         flipOver();
         
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
     // stops user from just clicking on 1 card twice to "match" it.
-    // if (event.target.classList.contains('open')) { 
-    //     return; 
-    // }
+    
   if (open_cards.length != 2 && event.target.className === "card open show" && 
         shown_cards.length != 2){
         open_cards.push(event.target.childNodes[0].className);
@@ -135,7 +137,8 @@ deck.addEventListener('click', function(event) {
         // showModal();
         modal = document.getElementById('win-modal');
         modal.style.display = "block";
-        document.getElementsByClassName('endTime').innerHTML = timer;
+        document.querySelector('num-stars').innerHTML = num_stars;
+        document.querySelector('endTime').innerHTML = timer;
       } 
     }
  });
@@ -147,10 +150,13 @@ function increaseMoveCount() {
 
     if (move_count === 6) {
           starOne.style.display = "none";
+          num_stars -= 1;
     } else if (move_count === 12) {
           starTwo.style.display = "none";
+          num_stars -= 1;
     } else if (move_count === 15) {
           starThree.style.display = "none";
+          num_stars -= 1;
     }
 }
 
@@ -171,11 +177,12 @@ function playGame() {
     startTimer();
     createDeck();
     shuffle(card_names);
-
+    num_stars = 3;
 }
 
 function resetGame(){
     timer = 0;
+    num_stars = 3;
     clearTimeout(timePTR);
     document.getElementById('timer').innerHTML = 0;
    
