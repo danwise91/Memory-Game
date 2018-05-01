@@ -9,8 +9,11 @@ let card_names = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa
     totalClicks = 0,
     game_started = false;
 
-var myVar; 
-
+// var myVar; 
+var display;
+let model;
+let timer = 0;
+let timePTR;
 
 const deck = document.getElementById('mainDeck');
 const reset_button = document.querySelector('.restart');
@@ -23,7 +26,7 @@ const starLine = document.getElementById('stars');
 const scoreDisplay = document.getElementById("show-score");
 
 reset_button.addEventListener('click', resetGame);
-
+play_again.addEventListener('click', playAgain);
 // play_again.addEventListener('click', playGame);
 scoreDisplay.innerHTML = matched_pairs;
 playGame();
@@ -126,9 +129,14 @@ deck.addEventListener('click', function(event) {
     }
  // *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
     if(matched_pairs === 8) {
-        clearInterval(myVar);
-        showModal();
-      }
+        // clearInterval(myVar);
+        clearTimeout(timePTR);
+
+        // showModal();
+        modal = document.getElementById('win-modal');
+        modal.style.display = "block";
+        document.getElementsByClassName('endTime').innerHTML = timer;
+      } 
     }
  });
 
@@ -153,29 +161,25 @@ function increaseScore(){
 
  
 // Winning Modal
-function showModal() {
-    let modal = document.getElementById('win-modal');
-    modal.style.display = "block";
-};
+// function showModal() {
+//     modal = document.getElementById('win-modal');
+//     modal.style.display = "block";
+// };
 
 
 function playGame() {
-    //matched pairs doesnt update as the score
-    // startGameClock();
+    startTimer();
     createDeck();
-    // shuffles the order of the cards to begin.
     shuffle(card_names);
-    //Resets the move counter and displayed number of moves.
-    //**needs to reset stars and time**
-    //set the timer
-    var minutes = 60 * 0,
-    display = document.getElementById('timer');
-    startTimer(minutes, display);
+
 }
 
 function resetGame(){
-    createDeck();
-    shuffle(card_names);
+    timer = 0;
+    clearTimeout(timePTR);
+    document.getElementById('timer').innerHTML = 0;
+   
+    playGame();
 
     move_count = 0;
     moves.innerHTML = 0;
@@ -185,31 +189,22 @@ function resetGame(){
     starTwo.style.display = "block";
     starThree.style.display = "block";
 
+  
     //*********************************************//
          
 }
 
+function playAgain(){
+    resetGame();
+    modal = document.getElementById('win-modal');
+    modal.style.display = "none";
+}
+
 //*********************************************//
-
-//timer code
-function startTimer(duration, display) {
-    //set the duration, minutes, and seconds
-        var timer = duration, minutes, seconds;
-        myVar = setInterval(function () {
-        //convert minutes and seconds and give about .10 decimal places 
-        minutes = parseInt(timer / 60, 10)
-        seconds = parseInt(timer % 60, 10);
-        //if minutes are less than 10 then place a 0 in front of the minutes or
-            //seconds otherwise minutes and seconds are equal to minutes
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        display.textContent = minutes + ":" + seconds;
-
-        if (++timer <= 0) {
-            timer = 0;
-        }
-    }, 1000);
+function startTimer(){
+    timer += 1;
+    document.getElementById("timer").innerHTML = timer;
+    timePTR = setTimeout(startTimer, 1000);
 }
 
 
