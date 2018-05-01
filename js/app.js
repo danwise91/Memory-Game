@@ -15,6 +15,9 @@ let model;
 let timer = 0;
 let timePTR;
 
+;
+
+
 const deck = document.getElementById('mainDeck');
 const reset_button = document.querySelector('.restart');
 const play_again = document.querySelector('.play-again');
@@ -78,6 +81,12 @@ function flipOver() {
   event.target.classList.add('show');
 }
 
+function showModal() {
+    let timer = document.getElementsByClassName('endTime').innerHTML
+    let modal = document.getElementById('win-modal');
+    modal.style.display = "block";
+}
+
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
@@ -137,14 +146,11 @@ deck.addEventListener('click', function(event) {
     if(matched_pairs === 8) {
         // clearInterval(myVar);
         clearTimeout(timePTR);
-
-        // showModal();
-        modal = document.getElementById('win-modal');
-        modal.style.display = "block";
-        document.getElementsByClassName('endTime').innerHTML = timer;
+        showModal();
       } 
     }
  });
+
 
 // increases move count: 2 clicks === 1 move
 function increaseMoveCount() {
