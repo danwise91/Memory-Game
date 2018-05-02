@@ -84,20 +84,21 @@ function flipOver() {
 // adds click eventListener to <ul> rather than each individual card.
  // * set up the event listener for a card. If a card is clicked:
 deck.addEventListener('click', function(event) {
-  if (event.target.className === "card"){
-        totalClicks += 1;
-        increaseMoveCount();
-    }
-
-
     // stops user from just clicking on 1 card twice to "match" it.
     if (event.target.classList.contains('open')) { 
         return; 
     }
 
-  if (totalClicks <= 2){
+//prevents just one click from being considered 1 move. Will make sure 2 cards are open 
+    //before it counts as one move.
+  if (totalClicks < 2){
+    if (event.target.className === "card"){
+        totalClicks += 1;
         flipOver();
-        
+        if (totalClicks === 2){
+            increaseMoveCount();
+        }
+    }
  // *  - display the card's symbol (put this functionality in another function that you call from this one)
  // *  + increment the move counter and display it on the page (put this functionality in another function that you call from this one)   
     // stops user from just clicking on 1 card twice to "match" it.
@@ -156,10 +157,7 @@ function increaseMoveCount() {
     } else if (move_count === 30) {
           starTwo.style.display = "none";
           num_stars -= 1;
-    } else if (move_count === 40) {
-          starThree.style.display = "none";
-          num_stars -= 1;
-    }
+    } 
 }
 
 //function to increase score
